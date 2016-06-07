@@ -63,7 +63,10 @@ class GFTrader(WebTrader):
 
     def login(self, throw=False):
         """实现广发证券的自动登录"""
-        self.__go_login_page()
+        try:
+            self.__go_login_page()
+        except:
+            return False
         verify_code = self.__handle_recognize_code()
 
         if not verify_code:
