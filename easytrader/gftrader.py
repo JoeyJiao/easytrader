@@ -41,7 +41,7 @@ class GFTrader(WebTrader):
         # 获取验证码
         verify_code_response = self.s.get(self.config['verify_code_api'])
         # 保存验证码
-        image_path = os.path.join(tempfile.gettempdir(), 'vcode')
+        image_path = tempfile.mktemp()
         with open(image_path, 'wb') as f:
             f.write(bytes(verify_code_response.content))
 
@@ -63,7 +63,10 @@ class GFTrader(WebTrader):
 
     def login(self, throw=False):
         """实现广发证券的自动登录"""
-        self.__go_login_page()
+        try:
+            self.__go_login_page()
+        except:
+            return False
         verify_code = self.__handle_recognize_code()
 
         if not verify_code:
@@ -183,6 +186,28 @@ class GFTrader(WebTrader):
                 entrust_prop=entrust_prop
         )
         return self.__trade(stock_code, price, other=params)
+
+    def cnjj_apply(self, stock_code, amount):
+        """场内基金申购
+        :param stock_code: 基金代码
+        :param amount: 申购金额
+        """
+        params = dict(
+                self.config['cnjj_apply'],
+                entrust_amount=amount
+        )
+        return self.__trade(stock_code, 0, other=params)
+
+    def cnjj_redemption(self, stock_code, amount=0):
+        """场内基金赎回
+        :param stock_code: 基金代码
+        :param amount: 赎回份额
+        """
+        params = dict(
+                self.config['cnjj_redeem'],
+                entrust_amount=amount
+        )
+        return self.__trade(stock_code, 1, other=params)
 
     def fund_subscribe(self, stock_code, price=0, entrust_prop='LFS'):
         """基金认购
