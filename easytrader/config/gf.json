@@ -106,5 +106,17 @@
   "nxbentrustcancel": {
     "classname": "com.gf.etrade.control.NXBUF2Control",
     "method": "nxbentrustcancel"
+  },
+  "queryPLNewStkcode": {
+    "classname": "com.gf.etrade.control.StockUF2Control",
+    "method": "queryPLNewStkcode"
+  },
+  "entrustBAT": {
+    "classname": "com.gf.etrade.control.StockUF2Control",
+    "method": "entrustBAT",
+    "stock_account": "",
+    "exchange_types": "2",
+    "entrust_bs": "1",
+    "entrust_prop": "3"
   }
 }

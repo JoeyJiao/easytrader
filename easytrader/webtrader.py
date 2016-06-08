@@ -173,6 +173,8 @@ class WebTrader(object):
         request_params = self.create_basic_params()
         request_params.update(params)
         response_data = self.request(request_params)
+        if response_data == b'':
+            return None
         format_json_data = self.format_response_data(response_data)
         return_data = self.fix_error_data(format_json_data)
         try:

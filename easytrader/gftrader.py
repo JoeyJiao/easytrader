@@ -356,6 +356,27 @@ class GFTrader(WebTrader):
         )
         return self.do(params)
 
+    def queryPLNewStkcode(self):
+        """批量查询新股申购
+        """
+        params = dict(
+            self.config['queryPLNewStkcode']
+        )
+        return self.do(params)
+
+    def entrustBAT(self):
+        """批量新股申购
+        """
+        stocks = self.queryPLNewStkcode()['data']
+        for stock in stocks:
+            params = dict(
+                self.config['entrustBAT'],
+                stock_codes=stock['stock_code'],
+                entrust_amount=stock['enable_amount'] if float(stock['enable_amount']) <= float(stock['high_amount']) else stock['high_amount'],
+                entrust_price=stock['last_price']
+            )
+            return self.do(params)
+
     def __trade(self, stock_code, price, other):
         need_info = self.__get_trade_need_info(stock_code)
         trade_param = dict(
