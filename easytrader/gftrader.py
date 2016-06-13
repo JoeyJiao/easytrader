@@ -397,8 +397,8 @@ class GFTrader(WebTrader):
             params = dict(
                 self.config['entrustBAT'],
                 stock_codes=stock['stock_code'],
-                entrust_amount=stock['enable_amount'] if float(stock['enable_amount']) <= float(stock['high_amount']) else stock['high_amount'],
-                entrust_price=stock['last_price']
+                entrust_amounts=stock['enable_amount'] if float(stock['enable_amount']) <= float(stock['high_amount']) else stock['high_amount'],
+                entrust_prices=stock['last_price']
             )
             return self.do(params)
 
